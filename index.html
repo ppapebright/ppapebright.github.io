@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>reCAPTCHA</title>
+    <script src="https://www.google.com/recaptcha/api.js?onload=loadCaptcha&render=explicit" async defer></script>
+
+<script>
+
+    var googleSiteKey = null;
+    var captchaContainer = null;
+    var targetOrigin;
+
+    var loadCaptcha = function() {
+
+      if (googleSiteKey) {
+        captchaContainer = grecaptcha.render('captcha_container', {
+          'sitekey' : googleSiteKey,
+          'callback' : function(response) {
+
+            var json = JSON.stringify({ field: 'response', value: response });
+            window.parent.postMessage(response, "*");
+          }
+        });
+      }
+    };
+
+    function loadSiteKey() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      googleSiteKey = urlParams.get('dataSiteKey');
+      targetOrigin = urlParams.get('targetOrigin');
+      loadCaptcha();
+    }
+
+</script>
+</head>
+<body onload="loadSiteKey();">
+<div style='height: 60px;'></div>
+
+<div background-color="green" id="captcha_container"></div>
+
+</body>
+</html>
+<html>
+<body>
