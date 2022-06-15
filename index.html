@@ -16,8 +16,8 @@
         captchaContainer = grecaptcha.render('captcha_container', {
           'sitekey' : googleSiteKey,
           'callback' : function(response) {
+            console.log(response);
             var json = JSON.stringify({ field: 'response', value: response });
-            // console.log(response);
             window.parent.postMessage(json, targetOrigin);
           }
         });
