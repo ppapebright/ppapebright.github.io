@@ -17,7 +17,8 @@
           'sitekey' : googleSiteKey,
           'callback' : function(response) {
             // var json = JSON.stringify({ field: 'response', value: response });
-            window.parent.postMessage(response, "*");
+            console.log(response);
+            window.parent.postMessage(response, targetOrigin);
           }
         });
       }
