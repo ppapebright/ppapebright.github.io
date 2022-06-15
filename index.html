@@ -17,6 +17,7 @@
           'sitekey' : googleSiteKey,
           'callback' : function(response) {
             console.log(response);
+            
             var json = JSON.stringify({ field: 'response', value: response });
             window.parent.postMessage(json, targetOrigin);
           }
