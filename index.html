@@ -4,6 +4,16 @@
     <title>reCAPTCHA</title>
     <script src="https://www.google.com/recaptcha/api.js?onload=loadCaptcha&render=explicit" async defer></script>
 
+    <style>
+      .text-center {
+          text-align: center;
+      }
+  
+      .g-recaptcha {
+          display: inline-block;
+      }
+  </style>
+
 <script>
 
     var googleSiteKey = null;
@@ -16,9 +26,12 @@
         captchaContainer = grecaptcha.render('captcha_container', {
           'sitekey' : googleSiteKey,
           'callback' : function(response) {
-            console.log(response);
-            var json = JSON.stringify({ field: 'response', value: response });
-            window.parent.postMessage(json, targetOrigin);
+      try {
+      var json = JSON.stringify({ response: `${response}`, origin: targetOrigin });
+      window.parent.postMessage(json, targetOrigin);
+      } catch (error){
+      console.log(error);
+      }
           }
         });
       }
@@ -37,7 +50,7 @@
 <body onload="loadSiteKey();">
 <div style='height: 60px;'></div>
 
-<div background-color="green" id="captcha_container"></div>
+<div style="text-align: center;" id="captcha_container"></div>
 
 </body>
 </html>
